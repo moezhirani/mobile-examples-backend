@@ -8,6 +8,10 @@ my $url = 'http://localhost:3000';
 
 require Test::More;
 import Test::More;
+
+require JSON;
+import JSON qw(from_json);
+
 require Test::WWW::Mechanize;
 my $m = Test::WWW::Mechanize->new();
 
@@ -17,7 +21,7 @@ my $m = Test::WWW::Mechanize->new();
 
 # shall I use plain HTML backend or only json backend?
 
-plan(tests => 4);
+plan(tests => 6);
 diag($url);
 $m->get_ok($url);
 $m->content_like(qr{<h1>Mobile Examples Backend</h1>});
@@ -25,3 +29,12 @@ $m->content_like(qr{<h1>Mobile Examples Backend</h1>});
 $m->get_ok("$url/echo?txt=Foo");
 $m->content_like(qr{Echo GET Foo});
 
+
+$m->get_ok("$url/echo.json?txt=Bar");
+is_deeply(from_json($m->content),
+   {
+      'method' => 'GET',
+      'txt' => 'Bar'
+   }, 'echo json get');
+
+#diag(explain(from_json($m->content)));
