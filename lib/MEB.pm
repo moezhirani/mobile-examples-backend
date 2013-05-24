@@ -7,4 +7,8 @@ get '/' => sub {
     template 'index';
 };
 
+get '/echo' => sub {
+	return 'Echo GET ' . param('txt');
+};
+
 true;
