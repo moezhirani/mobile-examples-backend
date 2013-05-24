@@ -15,5 +15,9 @@ get '/echo.json' => sub {
 	return to_json { method => 'GET', txt => param('txt') };
 };
 
+post '/echo.json' => sub {
+	return to_json { method => 'POST', txt => param('txt') };
+};
+
 
 true;

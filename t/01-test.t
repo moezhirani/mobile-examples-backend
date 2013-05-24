@@ -21,7 +21,7 @@ my $m = Test::WWW::Mechanize->new();
 
 # shall I use plain HTML backend or only json backend?
 
-plan(tests => 6);
+plan(tests => 8);
 diag($url);
 $m->get_ok($url);
 $m->content_like(qr{<h1>Mobile Examples Backend</h1>});
@@ -36,5 +36,13 @@ is_deeply(from_json($m->content),
       'method' => 'GET',
       'txt' => 'Bar'
    }, 'echo json get');
+
+$m->post_ok("$url/echo.json", {txt => 'Foo'});
+is_deeply(from_json($m->content),
+   {
+      'method' => 'POST',
+      'txt' => 'Foo'
+   }, 'echo json post');
+
 
 #diag(explain(from_json($m->content)));
