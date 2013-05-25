@@ -8,6 +8,8 @@ my $url = 'http://localhost:3000';
 
 require Test::More;
 import Test::More;
+require Test::Deep;
+import Test::Deep;
 
 require JSON;
 import JSON qw(from_json);
@@ -31,17 +33,19 @@ $m->content_like(qr{Echo GET Foo});
 
 
 $m->get_ok("$url/echo.json?txt=Bar");
-is_deeply(from_json($m->content),
+cmp_deeply(from_json($m->content),
    {
       'method' => 'GET',
-      'txt' => 'Bar'
+      'txt' => 'Bar',
+      'time' => ignore(), 
    }, 'echo json get');
 
 $m->post_ok("$url/echo.json", {txt => 'Foo'});
-is_deeply(from_json($m->content),
+cmp_deeply(from_json($m->content),
    {
       'method' => 'POST',
-      'txt' => 'Foo'
+      'txt' => 'Foo',
+      'time' => ignore(), 
    }, 'echo json post');
 
 
