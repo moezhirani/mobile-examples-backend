@@ -21,6 +21,6 @@ post '/echo.json' => sub {
 
 get '/show' => sub {
 	return "hello from moez at ".localtime;
-}
+};
 
 true;
