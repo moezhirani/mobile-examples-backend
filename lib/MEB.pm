@@ -19,5 +19,8 @@ post '/echo.json' => sub {
 	return to_json { method => 'POST', txt => param('txt'), 'time' => scalar localtime };
 };
 
+get '/show' => sub {
+	return "hello from moez at ".localtime;
+}
 
 true;
